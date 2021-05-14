@@ -22,7 +22,7 @@ logging:
 
 eureka:
   instance:
-    prefer-ip-address: false
+    prefer-ip-address: true
   client:
     service-url:
       defaultZone: http://admin:${jhipster.registry.password}@localhost:8761/eureka/
@@ -53,22 +53,22 @@ spring:
     hikari:
       poolName: Hikari
       auto-commit: false
-    datasource1:
-      type: com.zaxxer.hikari.HikariDataSource
-      url: jdbc:log4jdbc:oracle:thin:@168.78.201.162:21152:XE
-      username: ETAX
-      password: 1qaz2wsx#edc
-      hikari:
-        poolName: Hikari
-        auto-commit: false
-    datasource2:
-      type: com.zaxxer.hikari.HikariDataSource
-      url: jdbc:log4jdbc:oracle:thin:@168.78.201.162:21152:XE
-      username: EXEDI
-      password: CHWJ8_9_3123
-      hikari:
-        poolName: Hikari
-        auto-commit: false
+  datasource1:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:log4jdbc:oracle:thin:@168.78.201.162:21152:XE
+    username: ETAX
+    password: 1qaz2wsx#edc
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+  datasource2:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:log4jdbc:oracle:thin:@168.78.201.162:21152:XE
+    username: EXEDI
+    password: CHWJ8_9_3123
+    hikari:
+      poolName: Hikari
+      auto-commit: false
   messages:
     cache-duration: PT1S # 1 second, see the ISO 8601 standard
   thymeleaf:
