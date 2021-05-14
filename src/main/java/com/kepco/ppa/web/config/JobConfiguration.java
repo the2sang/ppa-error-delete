@@ -5,11 +5,18 @@ import com.kepco.ppa.web.batch.domain.TaxEmailItemListVO;
 import com.kepco.ppa.web.batch.domain.TbTaxBillInfoEncVO;
 import com.kepco.ppa.web.batch.reader.TaxEmailBillInfoDataReader;
 import com.kepco.ppa.web.batch.reader.TaxEmailItemListDataReader;
+import com.kepco.ppa.web.batch.reader.TbTaxBillInfoENCDataReader;
 import com.kepco.ppa.web.batch.service.TbTaxBillInfoEncInitial;
 import com.kepco.ppa.web.batch.writer.*;
 import com.kepco.ppa.web.batch.writer.preparedStatmementSetter.*;
 import com.kepco.ppa.web.common.YAMLConfig;
 import com.kepco.ppa.web.web.rest.CreateBachIdsJobParameter;
+import java.io.IOException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -32,13 +39,6 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
-
-import javax.sql.DataSource;
-import java.io.IOException;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created By K.H.C (Hanjun KDN)
@@ -84,7 +84,6 @@ public class JobConfiguration {
         return new CreateBachIdsJobParameter();
     }
 
-
     @Bean
     public JobLauncher jobLauncher() throws Exception {
         SimpleJobLauncher jobLauncher = new SimpleJobLauncher();
@@ -94,11 +93,9 @@ public class JobConfiguration {
         return jobLauncher;
     }
 
-
     @Bean
     @StepScope
     public JdbcPagingItemReader<TaxEmailBillInfoVO> pagingTaxEmailBillInfoItemReader() {
-
         Map<String, Object> params = new HashMap<>();
         params.put("time", jobParameter.getTime()); // (4)
         params.put("batchIds", jobParameter.getBatchIds());
@@ -112,9 +109,9 @@ public class JobConfiguration {
 
     @Bean
     @StepScope
-    public JdbcPagingItemReader<TaxEmailItemListVO> pagingTaxEmailItemListItemReader(){
-        TaxEmailItemListDataReader dataReader = new TaxEmailItemListDataReader();
-        dataReader.setDataSource(this.etaxDataSource);
+    public JdbcPagingItemReader<TbTaxBillInfoEncVO> pagingTaxEmailBillInfoENCItemReader() {
+        TbTaxBillInfoENCDataReader dataReader = new TbTaxBillInfoENCDataReader();
+        dataReader.setDataSource(this.exediDataSource);
 
         return dataReader.getPagingReader();
     }
@@ -122,11 +119,11 @@ public class JobConfiguration {
     ///////////////////////////////////////////////
     // TB_TAX_BILL_INFO_ENC
     @Bean
-    JdbcBatchItemWriter<TbTaxBillInfoEncVO> tbTaxBillInfoEncWriter() {
-        return new JdbcBatchItemWriterBuilder<TbTaxBillInfoEncVO>()
+    JdbcBatchItemWriter<TaxEmailBillInfoVO> tbTaxBillInfoEncWriter() {
+        return new JdbcBatchItemWriterBuilder<TaxEmailBillInfoVO>()
             .dataSource(exediDataSource)
             .beanMapped()
-            .sql("DELETE FROM TB_TAX_BILL_INFO_ENC  WHERE ESERO_ISSUE_ID = :issueId")
+            .sql("DELETE FROM TB_TAX_BILL_INFO_ENC WHERE REGIST_ID = 'ppauser' AND ESERO_ISSUE_ID = :issueId")
             .build();
     }
 
@@ -146,7 +143,7 @@ public class JobConfiguration {
         return new JdbcBatchItemWriterBuilder<TbTaxBillInfoEncVO>()
             .dataSource(exediDataSource)
             .beanMapped()
-            .sql("DELETE FROM TB_STATUS_HIST WHERE BIZ_MANAGE_ID = :bizManageId")
+            .sql("DELETE FROM TB_STATUS_HIST WHERE REGIST_ID = 'ppauser' AND BIZ_MANAGE_ID = :bizManageId")
             .build();
     }
 
@@ -166,7 +163,7 @@ public class JobConfiguration {
         return new JdbcBatchItemWriterBuilder<TbTaxBillInfoEncVO>()
             .dataSource(exediDataSource)
             .beanMapped()
-            .sql("DELETE FROM ETS_TAX_MAIN_INFO_TB WHERE ASP_ISSUE_ID = :eseroIssueId")
+            .sql("DELETE FROM ETS_TAX_MAIN_INFO_TB WHERE BUYER_CONTACTOR_NAME ='BATCH' AND ASP_ISSUE_ID = :eseroIssueId")
             .build();
     }
 
@@ -176,23 +173,24 @@ public class JobConfiguration {
         return new JdbcBatchItemWriterBuilder<TbTaxBillInfoEncVO>()
             .dataSource(exediDataSource)
             .beanMapped()
-            .sql("DELETE FROM KEY_POWEREDI.IF_TAX_BILL_INFO WHERE ISSUE_ID = :issueId")
+            .sql("DELETE FROM KEY_POWEREDI.IF_TAX_BILL_INFO WHERE REGIST_ID = 'ppauser' AND ISSUE_ID = :issueId")
             .build();
     }
+
     ///////////////////////////////////////////////
     // TB_TRADE_ITEM_LIST
     @Bean
-    JdbcBatchItemWriter<TbTaxBillInfoEncVO> tbTradeItemListWriter(){
+    JdbcBatchItemWriter<TbTaxBillInfoEncVO> tbTradeItemListWriter() {
         return new JdbcBatchItemWriterBuilder<TbTaxBillInfoEncVO>()
             .dataSource(exediDataSource)
             .beanMapped()
-            .sql("DELETE FROM  TB_TRADE_ITEM_LIST WHERE BIZ_MANAGE_ID = :bizManageId")
+            .sql("DELETE FROM TB_TRADE_ITEM_LIST WHERE BIZ_MANAGE_ID = :bizManageId")
             .build();
     }
 
     // ETS_TAX_LINE_INFO_TB
     @Bean
-    JdbcBatchItemWriter<TbTaxBillInfoEncVO> etsTaxLineInfoTbWriter(){
+    JdbcBatchItemWriter<TbTaxBillInfoEncVO> etsTaxLineInfoTbWriter() {
         return new JdbcBatchItemWriterBuilder<TbTaxBillInfoEncVO>()
             .dataSource(exediDataSource)
             .beanMapped()
@@ -202,23 +200,15 @@ public class JobConfiguration {
 
     // IF_TAX_BILL_ITEM_LIST
     @Bean
-    JdbcBatchItemWriter<TbTaxBillInfoEncVO> ifTaxBillItemListWriter(){
+    JdbcBatchItemWriter<TbTaxBillInfoEncVO> ifTaxBillItemListWriter() {
         return new JdbcBatchItemWriterBuilder<TbTaxBillInfoEncVO>()
             .dataSource(exediDataSource)
             .beanMapped()
             .sql("DELETE FROM KEY_POWEREDI.IF_TAX_BILL_ITEM_LIST WHERE manageId = :svcManageId")
             .build();
     }
-    ///////////////////////////////////////////////
 
-//    @Bean
-//    JdbcBatchItemWriter<TbTaxBillInfoEncVO> taxEmailBillInfoEndingUpdate() {
-//        return new JdbcBatchItemWriterBuilder<TbTaxBillInfoEncVO>()
-//            .dataSource(etaxDataSource)
-//            .beanMapped()
-//            .sql("UPDATE TAX_EMAIL_BILL_INFO SET MAIL_STATUS_CODE = '99' WHERE ISSUE_ID = :eseroIssueId")
-//            .build();
-//    }
+    ///////////////////////////////////////////////
 
     @Bean
     JdbcBatchItemWriter<TbTaxBillInfoEncVO> taxEmailItemListEndingUpdate() {
@@ -234,66 +224,38 @@ public class JobConfiguration {
     public CompositeItemWriter<TbTaxBillInfoEncVO> compositeItemWriter() {
         CompositeItemWriter<TbTaxBillInfoEncVO> compositeItemWriter = new CompositeItemWriter<>();
 
-        compositeItemWriter.setDelegates(Arrays.asList(ifTaxBillResultInfoWriter(),
-            tbStatusHistWriter(), etsTaxMetaInfoTbWriter(), etsTaxMainInfoTbWriter(), ifTaxBillInfoWriter(),
-            tbTradeItemListWriter(), etsTaxLineInfoTbWriter(), ifTaxBillItemListWriter(), tbTaxBillInfoEncWriter(), taxEmailItemListEndingUpdate()));
+        compositeItemWriter.setDelegates(
+            Arrays.asList(
+                ifTaxBillResultInfoWriter(),
+                tbStatusHistWriter(),
+                etsTaxMetaInfoTbWriter(),
+                etsTaxMainInfoTbWriter(),
+                ifTaxBillInfoWriter(),
+                tbTradeItemListWriter(),
+                etsTaxLineInfoTbWriter(),
+                ifTaxBillItemListWriter(),
+                tbTaxBillInfoEncWriter(),
+                taxEmailItemListEndingUpdate()
+            )
+        );
 
         return compositeItemWriter;
     }
 
-//    //PPA 배치처리를 위한 3개 테이블 Insert 및 Update
-//    @Bean
-//    public CompositeItemWriter<TaxEmailItemListVO> compositeStep2ItemWriter(){
-//        CompositeItemWriter<TaxEmailItemListVO> compositeItemWriter = new CompositeItemWriter<>();
-//
-//        compositeItemWriter.setDelegates(Arrays.asList(tbTradeItemListWriter(), etsTaxLineInfoTbWriter(), ifTaxBillItemListWriter(), taxEmailItemListEndingUpdate()));
-//
-//        return compositeItemWriter;
-//    }
-
-//    @Bean  // 운영 환경에서 (반영될 부분)
-//    public ItemProcessorAdapter<TaxEmailBillInfoVO, TbTaxBillInfoEncVO> tbTaxBillInfoEncItemProcessor(TbTaxBillInfoEncInitial service) {
-//
-//        ItemProcessorAdapter<TaxEmailBillInfoVO, TbTaxBillInfoEncVO> adapter = new ItemProcessorAdapter<>();
-//
-//        adapter.setTargetObject(service);
-//        adapter.setTargetMethod("tbTaxBillInfoEncInitialize");
-//
-//        return adapter;
-//    }
-
     @JobScope
     @Bean
-    public Step step1()  {
+    public Step step1() {
         log.info("STEP-1 시작...");
-
-
-        return stepBuilderFactory.get("step1")
+        return stepBuilderFactory
+            .get("step1")
             .<TaxEmailBillInfoVO, TbTaxBillInfoEncVO>chunk(5)
             .reader(pagingTaxEmailBillInfoItemReader())
             .writer(compositeItemWriter())
             .build();
     }
 
-//    @JobScope
-//    @Bean
-//    public Step step2() {
-//        log.info("STEP-2 시작...");
-//        return stepBuilderFactory.get("step2")
-//            .<TaxEmailItemListVO, TaxEmailItemListVO>chunk(5)
-//            .reader(pagingTaxEmailItemListItemReader())
-//            .writer(compositeStep2ItemWriter())
-//            .build();
-//    }
-
-    @Bean(name="ppaBatchJob")
+    @Bean(name = "ppaBatchJob")
     public Job ppaBatchJob() {
-        return jobBuilderFactory.get("ppaBatchJob")
-
-            .preventRestart()
-            .incrementer(new RunIdIncrementer())
-            .start(step1())
-            .build();
+        return jobBuilderFactory.get("ppaBatchJob").preventRestart().incrementer(new RunIdIncrementer()).start(step1()).build();
     }
-
 }
