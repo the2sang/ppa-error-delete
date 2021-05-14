@@ -98,15 +98,15 @@ public class TbTaxBillInfoEncRowMapper implements RowMapper<TbTaxBillInfoEncVO> 
             resultSet.getString("ESERO_ISSUE_ID"),
             resultSet.getString("TAX_2ND_SIGN"),
             resultSet.getString("ISSUE_DT2"),
-            resultSet.getString("BROKER_PARTY_ID_ENC"), //90
-            resultSet.getString("BROKER_PARTY_NAME_ENC"),
-            resultSet.getString("INVOICER_PARTY_ID_ENC"),
-            resultSet.getString("INVOICER_PARTY_NAME_ENC"),
-            resultSet.getString("INVOICEE_PARTY_ID_ENC"),
-            resultSet.getString("INVOICEE_PARTY_NAME_ENC"),
-            resultSet.getString("CHARGE_TOTAL_AMOUNT_ENC"),
-            resultSet.getString("TAX_TOTAL_AMOUNT_ENC"),
-            resultSet.getString("GRAND_TOTAL_AMOUNT_ENC"),
+            //            resultSet.getString("BROKER_PARTY_ID_ENC"), //90
+            //            resultSet.getString("BROKER_PARTY_NAME_ENC"),
+            //            resultSet.getString("INVOICER_PARTY_ID_ENC"),
+            //            resultSet.getString("INVOICER_PARTY_NAME_ENC"),
+            //            resultSet.getString("INVOICEE_PARTY_ID_ENC"),
+            //            resultSet.getString("INVOICEE_PARTY_NAME_ENC"),
+            //            resultSet.getString("CHARGE_TOTAL_AMOUNT_ENC"),
+            //            resultSet.getString("TAX_TOTAL_AMOUNT_ENC"),
+            //            resultSet.getString("GRAND_TOTAL_AMOUNT_ENC"),
             resultSet.getDate("ESERO_CREATE_TS"),
             resultSet.getDate("ESERO_FINISH_TS") //100
         );

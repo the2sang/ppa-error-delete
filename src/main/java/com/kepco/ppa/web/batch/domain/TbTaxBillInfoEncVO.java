@@ -99,15 +99,15 @@ public class TbTaxBillInfoEncVO {
     private String eseroIssueId;
     private String Tax2ndSign;
     private String issueDt2;
-    private String brokerPartyIdEnc;
-    private String brokerPartyNameEnc;
-    private String invoicerPartyIdEnc;
-    private String invoicerPartyNameEnc;
-    private String invoiceePartyIdEnc;
-    private String invoiceePartyNameENc;
-    private String chargeTotalAmountEnc;
-    private String taxTotalAmountEnc;
-    private String grandTotalAmountEnc;
+    //    private String brokerPartyIdEnc;
+    //    private String brokerPartyNameEnc;
+    //    private String invoicerPartyIdEnc;
+    //    private String invoicerPartyNameEnc;
+    //    private String invoiceePartyIdEnc;
+    //    private String invoiceePartyNameENc;
+    //    private String chargeTotalAmountEnc;
+    //    private String taxTotalAmountEnc;
+    //    private String grandTotalAmountEnc;
     private Date eseroCreateTs;
     private Date eseroFinishTs;
 }
