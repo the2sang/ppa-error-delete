@@ -225,7 +225,7 @@ public class JobConfiguration {
         return new JdbcBatchItemWriterBuilder<TbTaxBillInfoEncVO>()
             .dataSource(etaxDataSource)
             .beanMapped()
-            .sql("UPDATE TAX_EMAIL_BILL_INFO SET MAIL_STATUS_CODE = '01' WHERE ISSUE_ID = :issueId")
+            .sql("UPDATE TAX_EMAIL_BILL_INFO SET MAIL_STATUS_CODE = '' WHERE ISSUE_ID = :issueId")
             .build();
     }
 
