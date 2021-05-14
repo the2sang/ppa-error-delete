@@ -15,7 +15,7 @@
 DB_ENC : 0
 logging:
   level:
-    ROOT: INFO
+    ROOT: DEBUG
     tech.jhipster: DEBUG
     org.hibernate.SQL: DEBUG
     com.kepco.ppa.web: DEBUG
@@ -46,20 +46,33 @@ spring:
       label: main # toggle to switch to a different version of the configuration as stored in git
       # it can be set to any label, branch or commit of the configuration source Git repository
   datasource:
-    driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:oracle:thin:@localhost:21152:XE
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:oracle:thin:@168.78.201.162:21152:xe
     username: etax
     password: 1qaz2wsx#edc
+    hikari:
+      poolName: Hikari
+      auto-commit: false
   datasource1:
-    driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:oracle:thin:@localhost:21152:XE
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:oracle:thin:@168.78.201.162:21152:xe
     username: etax
     password: 1qaz2wsx#edc
+    hikari:
+      poolName: Hikari
+      auto-commit: false
   datasource2:
-    driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:oracle:thin:@localhost:21152:XE
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:oracle:thin:@168.78.201.162:21152:xe
     username: exedi
     password: CHWJ8_9_3123
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+  jpa:
+  liquibase:
+    # Remove 'faker' if you do not want the sample data to be loaded automatically
+    contexts: prod
   messages:
     cache-duration: PT1S # 1 second, see the ISO 8601 standard
   thymeleaf:
@@ -75,7 +88,7 @@ spring:
         enabled: true
 
 server:
-  port: 9094
+  port: 9411
 
 # ===================================================================
 # JHipster specific properties
