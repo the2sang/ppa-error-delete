@@ -47,28 +47,28 @@ spring:
       # it can be set to any label, branch or commit of the configuration source Git repository
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:oracle:thin:@168.78.201.162:21152:xe
-    username: etax
+    url: jdbc:log4jdbc:oracle:thin:@168.78.201.162:21152:XE
+    username: ETAX
     password: 1qaz2wsx#edc
     hikari:
       poolName: Hikari
       auto-commit: false
-  datasource1:
-    type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:oracle:thin:@168.78.201.162:21152:xe
-    username: etax
-    password: 1qaz2wsx#edc
-    hikari:
-      poolName: Hikari
-      auto-commit: false
-  datasource2:
-    type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:oracle:thin:@168.78.201.162:21152:xe
-    username: exedi
-    password: CHWJ8_9_3123
-    hikari:
-      poolName: Hikari
-      auto-commit: false
+    datasource1:
+      type: com.zaxxer.hikari.HikariDataSource
+      url: jdbc:log4jdbc:oracle:thin:@168.78.201.162:21152:XE
+      username: ETAX
+      password: 1qaz2wsx#edc
+      hikari:
+        poolName: Hikari
+        auto-commit: false
+    datasource2:
+      type: com.zaxxer.hikari.HikariDataSource
+      url: jdbc:log4jdbc:oracle:thin:@168.78.201.162:21152:XE
+      username: EXEDI
+      password: CHWJ8_9_3123
+      hikari:
+        poolName: Hikari
+        auto-commit: false
   jpa:
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
