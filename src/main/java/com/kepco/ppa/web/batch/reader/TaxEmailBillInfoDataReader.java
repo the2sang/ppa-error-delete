@@ -20,7 +20,7 @@ public class TaxEmailBillInfoDataReader {
     @Setter
     private DataSource dataSource;
 
-    public final int READER_FETCH_SIZE = 50;
+    public final int READER_FETCH_SIZE = 100;
 
     @Setter
     @Getter
@@ -57,7 +57,7 @@ public class TaxEmailBillInfoDataReader {
     private String getWhereClause() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(" B.MAIL_STATUS_CODE = '88' "); //메일진행상태(null:DEFAULT,'01':작성중및회계처리중,'02'회계처리완료,'98':공급받는자반려, '88': ENC 국.승인번호 중복처리
+        sb.append(" B.MAIL_STATUS_CODE = '55' "); //메일진행상태(null:DEFAULT,'01':작성중및회계처리중,'02'회계처리완료,'98':공급받는자반려, '88': ENC 국.승인번호 중복처리
         sb.append(" AND B.ID IN (" + batchIds + ")");
 
         return sb.toString();
