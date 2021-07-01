@@ -22,7 +22,7 @@ logging:
 
 eureka:
   instance:
-    prefer-ip-address: true
+    prefer-ip-address: false
   client:
     service-url:
       defaultZone: http://admin:${jhipster.registry.password}@localhost:8761/eureka/
@@ -47,7 +47,7 @@ spring:
       # it can be set to any label, branch or commit of the configuration source Git repository
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:log4jdbc:oracle:thin:@168.78.201.162:21152:XE
+    url: jdbc:log4jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS_LIST=(LOAD_BALANCE=ON)(FAILOVER=ON)(ADDRESS=(PROTOCOL=TCP)(HOST=168.78.211.152)(PORT=21152))(ADDRESS=(PROTOCOL=TCP)(HOST=168.78.211.156)(PORT=21152)))(CONNECT_DATA=(SERVICE_NAME=CATG)(FAILOVER_MODE=(TYPE=SELECT)(METHOD=BASIC))))
     username: ETAX
     password: 1qaz2wsx#edc
     hikari:
@@ -55,7 +55,7 @@ spring:
       auto-commit: false
   datasource1:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:log4jdbc:oracle:thin:@168.78.201.162:21152:XE
+    url: jdbc:log4jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS_LIST=(LOAD_BALANCE=ON)(FAILOVER=ON)(ADDRESS=(PROTOCOL=TCP)(HOST=168.78.211.152)(PORT=21152))(ADDRESS=(PROTOCOL=TCP)(HOST=168.78.211.156)(PORT=21152)))(CONNECT_DATA=(SERVICE_NAME=CATG)(FAILOVER_MODE=(TYPE=SELECT)(METHOD=BASIC))))
     username: ETAX
     password: 1qaz2wsx#edc
     hikari:
@@ -63,7 +63,7 @@ spring:
       auto-commit: false
   datasource2:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:log4jdbc:oracle:thin:@168.78.201.162:21152:XE
+    url: jdbc:log4jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS_LIST=(LOAD_BALANCE=ON)(FAILOVER=ON)(ADDRESS=(PROTOCOL=TCP)(HOST=168.78.211.152)(PORT=21152))(ADDRESS=(PROTOCOL=TCP)(HOST=168.78.211.156)(PORT=21152)))(CONNECT_DATA=(SERVICE_NAME=CATG)(FAILOVER_MODE=(TYPE=SELECT)(METHOD=BASIC))))
     username: EXEDI
     password: CHWJ8_9_3123
     hikari:
@@ -84,7 +84,7 @@ spring:
         enabled: true
 
 server:
-  port: 9411
+  port: 9900
 
 # ===================================================================
 # JHipster specific properties

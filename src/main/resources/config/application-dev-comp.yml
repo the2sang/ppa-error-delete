@@ -47,32 +47,28 @@ spring:
       # it can be set to any label, branch or commit of the configuration source Git repository
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:oracle:thin:@168.78.201.162:21152:xe
-    username: etax
+    url: jdbc:log4jdbc:oracle:thin:@168.78.201.162:21152:XE
+    username: ETAX
     password: 1qaz2wsx#edc
     hikari:
       poolName: Hikari
       auto-commit: false
   datasource1:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:oracle:thin:@168.78.201.162:21152:xe
-    username: etax
+    url: jdbc:log4jdbc:oracle:thin:@168.78.201.162:21152:XE
+    username: ETAX
     password: 1qaz2wsx#edc
     hikari:
       poolName: Hikari
       auto-commit: false
   datasource2:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:oracle:thin:@168.78.201.162:21152:xe
-    username: exedi
+    url: jdbc:log4jdbc:oracle:thin:@168.78.201.162:21152:XE
+    username: EXEDI
     password: CHWJ8_9_3123
     hikari:
       poolName: Hikari
       auto-commit: false
-  jpa:
-  liquibase:
-    # Remove 'faker' if you do not want the sample data to be loaded automatically
-    contexts: prod
   messages:
     cache-duration: PT1S # 1 second, see the ISO 8601 standard
   thymeleaf:
@@ -88,7 +84,7 @@ spring:
         enabled: true
 
 server:
-  port: 9411
+  port: 9900
 
 # ===================================================================
 # JHipster specific properties
