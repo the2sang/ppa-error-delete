@@ -195,7 +195,7 @@ public class JobConfiguration {
         return new JdbcBatchItemWriterBuilder<TbTaxBillInfoEncVO>()
             .dataSource(etaxDataSource)
             .beanMapped()
-            .sql("UPDATE TAX_EMAIL_BILL_INFO SET MAIL_STATUS_CODE = '' WHERE ISSUE_ID = :eseroIssueId")
+            .sql("UPDATE TAX_EMAIL_BILL_INFO SET MAIL_STATUS_CODE = '66' WHERE ISSUE_ID = :eseroIssueId")
             .build();
     }
 
@@ -227,7 +227,7 @@ public class JobConfiguration {
         log.info("STEP-1 시작...");
         return stepBuilderFactory
             .get("step1")
-            .<TbTaxBillInfoEncVO, TbTaxBillInfoEncVO>chunk(5)
+            .<TbTaxBillInfoEncVO, TbTaxBillInfoEncVO>chunk(20)
             .reader(pagingTaxEmailBillInfoItemReader())
             .writer(compositeItemWriter())
             .build();
